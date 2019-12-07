@@ -1,4 +1,4 @@
-package ruslan.kovshar;
+package ruslan.kovshar.client;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
