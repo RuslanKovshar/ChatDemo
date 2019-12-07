@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.TextFlow?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="ruslan.kovshar.client.UserWindow">
-    <TextField fx:id="textField" layoutX="40.0" layoutY="318.0" prefHeight="26.0" prefWidth="520.0"/>
+    <TextField fx:id="textField" layoutX="40.0" layoutY="318.0" prefHeight="26.0" prefWidth="461.0"/>
     <TextFlow fx:id="textFlow" layoutX="40.0" layoutY="58.0" prefHeight="200.0" prefWidth="520.0"
               style="-fx-border-color: black; -fx-background-color: #dedede; -fx-padding: 15px;"/>
+    <Button fx:id="sendBtn" layoutX="501.0" layoutY="318.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0"
+            text="Send"/>
 </AnchorPane>
