@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class SimpleServerSocket {
     public static void main(String[] args) throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(8189)) {
+            System.out.println("Server start...");
             while (true) {
                 Socket socket = serverSocket.accept();
                 new Thread(new MySocket(socket)).start();
