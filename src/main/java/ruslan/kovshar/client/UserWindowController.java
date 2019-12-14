@@ -3,6 +3,7 @@ package ruslan.kovshar.client;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.TextFlow;
 
@@ -19,6 +20,9 @@ public class UserWindowController implements Initializable {
 
     @FXML
     private Button sendBtn;
+
+    @FXML
+    private ScrollPane scroll; //this must match the fx:id of the ScrollPane element
 
 
     public TextField getTextField() {
@@ -38,7 +42,6 @@ public class UserWindowController implements Initializable {
     }
 
     public Button getSendBtn() {
-        System.out.println(sendBtn);
         return sendBtn;
     }
 
@@ -46,8 +49,17 @@ public class UserWindowController implements Initializable {
         this.sendBtn = sendBtn;
     }
 
+    public ScrollPane getScroll() {
+        return scroll;
+    }
+
+    public void setScroll(ScrollPane scroll) {
+        this.scroll = scroll;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        scroll.setVvalue(1.0);
 
         System.out.println("Start initialization");/*
         sendBtn.setOnAction(actionEvent -> sendMessage());
