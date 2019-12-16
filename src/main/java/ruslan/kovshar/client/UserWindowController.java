@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
 import java.net.URL;
@@ -13,10 +14,10 @@ import java.util.ResourceBundle;
 public class UserWindowController implements Initializable {
 
     @FXML
-    private TextField textField;
+    public VBox vBox;
 
     @FXML
-    private TextFlow textFlow;
+    private TextField textField;
 
     @FXML
     private Button sendBtn;
@@ -33,12 +34,12 @@ public class UserWindowController implements Initializable {
         this.textField = textField;
     }
 
-    public TextFlow getTextFlow() {
-        return textFlow;
+    public VBox getvBox() {
+        return vBox;
     }
 
-    public void setTextFlow(TextFlow textFlow) {
-        this.textFlow = textFlow;
+    public void setvBox(VBox vBox) {
+        this.vBox = vBox;
     }
 
     public Button getSendBtn() {
@@ -59,17 +60,5 @@ public class UserWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        scroll.setVvalue(1.0);
-
-        System.out.println("Start initialization");/*
-        sendBtn.setOnAction(actionEvent -> sendMessage());
-
-        textField.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode().getName().equals("Enter")) {
-                sendMessage();
-            }
-        });*/
-
-        System.out.println("End initialization");
     }
 }

@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -82,8 +83,15 @@ public class UserWindow extends Application {
 
     @Override
     public void stop() throws Exception {
-        System.out.println("Stoop");
         super.stop();
+        printWriter.println("#exit#");
+        try {
+            socket.close();
+            printWriter.close();
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendMessage(UserWindowController userWindowController) {
@@ -99,16 +107,7 @@ public class UserWindow extends Application {
     }
 
     @Override
-    public void init() throws Exception {
-        System.out.println("Start init");
-
-        System.out.println("End init");
-    }
-
-
-    @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.println("Start start");
         URL location = getClass().getResource("/user_window.fxml");
         FXMLLoader loader = new FXMLLoader(location);
         Pane root = loader.load();
@@ -120,29 +119,26 @@ public class UserWindow extends Application {
         userWindowController.getSendBtn()
                 .setOnAction(actionEvent -> sendMessage(userWindowController));
 
-        //Platform.runLater();
-        TextFlow textFlow = userWindowController.getTextFlow();
-        textFlow.setLineSpacing(5.0);
-        //textFlow.maxWidth(500);
-        ObjectProperty<TextFlow> tfp = new SimpleObjectProperty<>(textFlow);
 
-        tfp.addListener((obs, oldVal, newVal) -> {
+        VBox vbox = userWindowController.getvBox();
+        ObjectProperty<VBox> tfp = new SimpleObjectProperty<>(vbox);
+
+        /*tfp.addListener((obs, oldVal, newVal) -> {
             System.out.println(obs + " " + oldVal + "->" + newVal);
-            obs.getValue().getChildren().forEach(System.out::println);
+            ///obs.getValue().getChildren().forEach(System.out::println);
 
-            oldVal.getChildren().forEach(System.out::println);
+            //oldVal.getChildren().forEach(System.out::println);
             newVal.getChildren().forEach(System.out::println);
-            oldVal.getChildren().add(newVal.getChildren().get(0));
+
             //ObservableList<Node> oldValChildren = oldVal.getChildren();
             //ObservableList<Node> newValChildren = newVal.getChildren();
             //obs.getValue().getChildren().addAll(oldValChildren);
             //obs.getValue().getChildren().addAll(newValChildren);
-        });
-       /* tfp.addListener((observableValue, textFlow1, t1) -> Platform.runLater(() -> {
+        });*/
+        tfp.addListener((observableValue, textFlow1, t1) -> Platform.runLater(() -> {
             textFlow1.getChildren().add(t1);
-            userWindowController.getScroll().setVvalue(1.0);
-        }));*/
-
+            //userWindowController.getScroll().setVvalue(1.0);
+        }));
         MyService service = new MyService(scanner, tfp);
         service.start();
 
@@ -150,50 +146,12 @@ public class UserWindow extends Application {
         System.out.println("End start");
     }
 
-    public void finishWork() {
-        printWriter.println("#exit#");
-        try {
-            socket.close();
-            printWriter.close();
-            scanner.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    static class ServerListener implements Runnable {
-
-        private Scanner scanner;
-        private TextFlow textFlow;
-
-        public ServerListener(Scanner scanner, TextFlow textFlow) {
-            this.scanner = scanner;
-            this.textFlow = textFlow;
-        }
-
-        @Override
-        public void run() {
-            try {
-                while (true) {
-                    if (scanner.hasNextLine()) {
-                        String s = scanner.nextLine();
-
-                        //textFlow.getChildren().add(new Text(s + "\n"));
-                        System.out.println(s);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     static class MyService extends Service<String> {
         private Scanner scanner;
-        ObjectProperty<TextFlow> tfp = new SimpleObjectProperty<>();
+        ObjectProperty<VBox> tfp = new SimpleObjectProperty<>();
 
-        public MyService(Scanner scanner, Property<TextFlow> property) {
+        public MyService(Scanner scanner, Property<VBox> property) {
             this.scanner = scanner;
             this.tfp.bindBidirectional(property);
         }
@@ -207,20 +165,15 @@ public class UserWindow extends Application {
                         while (true) {
                             if (scanner.hasNextLine()) {
                                 String s = scanner.nextLine();
-                                //textFlow.getChildren().add(new Text(s + "\n"));
                                 System.out.println(s + "!!!!!");
-                                //TextFlow children = tfp.get();
-                                //children.getChildren().add(new Text(s));
-                                TextFlow textFlow1 = new TextFlow();
+
+
                                 Text text = new Text(s);
                                 text.setFont(new Font(20));
                                 text.setWrappingWidth(200);
                                 text.setTextAlignment(TextAlignment.JUSTIFY);
-                                //text.setText("The quick brown fox jumps over the lazy dog");
-
-                                textFlow1.getChildren().add(text);
-                                tfp.set(textFlow1);
-                                //return s;
+                                VBox vBox = new VBox(text);
+                                tfp.set(vBox);
                             }
                         }
                     } catch (Exception e) {
